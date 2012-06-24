@@ -148,6 +148,8 @@ int main_process_cmdline(int argc,char*argv[])
         }
         else if (argv[ee][0]!='-') datafile_argv=ee;
     }
+
+    return RETURN_CONTINUE;
 }
 
 void main_init_crt_report()
@@ -216,6 +218,7 @@ int main(int argc,char*argv[]) {
     if ((argc>1) && (argv[1][1]=='?'))
         return 0;
 
+    initialize_debug_system();
     write_log_debug("***** ENGINE STARTUP");
 
 #if defined(WINDOWS_VERSION)

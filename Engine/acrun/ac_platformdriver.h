@@ -2,6 +2,7 @@
 #define __AC_PLATFORMDRIVER_H
 
 #include "acrun/ac_datetime.h"
+#include "debug/outputtarget.h"
 
 enum eScriptSystemOSID {
     eOS_DOS = 1,
@@ -10,7 +11,10 @@ enum eScriptSystemOSID {
     eOS_Mac = 4
 };
 
-struct AGSPlatformDriver {
+struct AGSPlatformDriver
+    // be used as a output target for logging system
+    : public AGS::Common::out::IOutputTarget
+{
     virtual void AboutToQuitGame();
     virtual void Delay(int millis) = 0;
     virtual void DisplayAlert(const char*, ...) = 0;
@@ -48,6 +52,11 @@ struct AGSPlatformDriver {
     virtual void ShutdownPlugins();
 
     static AGSPlatformDriver *GetDriver();
+
+    //-----------------------------------------------
+    // IOutputTarget implementation
+    //-----------------------------------------------
+    virtual void out(const char *sz_fullmsg);
 
 private:
     static AGSPlatformDriver *instance;

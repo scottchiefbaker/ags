@@ -973,6 +973,10 @@
 				Name="debug"
 				>
 				<File
+					RelativePath="..\..\Engine\debug\consoleoutputtarget.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Engine\debug\debug.cpp"
 					>
 				</File>
@@ -982,6 +986,10 @@
 				</File>
 				<File
 					RelativePath="..\..\Engine\debug\namedpipesagsdebugger.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Engine\debug\rawfileoutputtarget.cpp"
 					>
 				</File>
 			</Filter>
@@ -1863,6 +1871,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\Engine\debug\consoleoutputtarget.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Engine\debug\debug.h"
 					>
 				</File>
@@ -1876,6 +1888,10 @@
 				</File>
 				<File
 					RelativePath="..\..\Engine\debug\namedpipesagsdebugger.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Engine\debug\rawfileoutputtarget.h"
 					>
 				</File>
 			</Filter>

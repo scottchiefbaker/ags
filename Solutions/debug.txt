@@ -1,0 +1,15 @@
+Run options.
+
+1. Read from either cmdline or other place (ini, registry?)
+2. Switches.
+
+Debugging and logging system.
+
+1. Writes sophisticated debug log.
+2. Verbosity is controlled by switches.
+3. Should take care of error handling by choosing:
+    - logging error and continuing safely, if possible
+    - displaying error in game and continuing safely if possible
+    - displaying error and quitting the game
+    - ?
+    depending on situation and switches

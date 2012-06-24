@@ -93,6 +93,11 @@ struct AGSWin32 : AGS32BitOSDriver {
   virtual int  RunPluginDebugHooks(const char *scriptfile, int linenum);
   virtual void ShutdownPlugins();
 
+  //-----------------------------------------------
+  // IOutputTarget implementation
+  //-----------------------------------------------
+  virtual void out(const char *sz_fullmsg);
+
 private:
   void add_game_to_game_explorer(IGameExplorer* pFwGameExplorer, GUID *guid, const char *guidAsText, bool allUsers);
   void remove_game_from_game_explorer(IGameExplorer* pFwGameExplorer, GUID *guid, const char *guidAsText, bool allUsers);
@@ -791,6 +796,13 @@ AGSPlatformDriver* AGSPlatformDriver::GetDriver() {
   if (instance == NULL)
     instance = new AGSWin32();
   return instance;
+}
+
+//-----------------------------------------------
+// IOutputTarget implementation
+//-----------------------------------------------
+void AGSWin32::out(const char *sz_fullmsg) {
+    this->WriteDebugString(sz_fullmsg);
 }
 
 

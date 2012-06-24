@@ -123,6 +123,12 @@ int AGSPlatformDriver::ConvertKeycodeToScanCode(int keycode)
   return keycode;
 }
 
+//-----------------------------------------------
+// IOutputTarget implementation
+//-----------------------------------------------
+void AGSPlatformDriver::out(const char *sz_fullmsg) {
+    // do nothing
+}
 
 // ********* NON-DOS BASE CLASS ******
 
