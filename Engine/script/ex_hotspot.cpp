@@ -19,6 +19,7 @@ void register_hotspot_script_functions()
 	scAdd_External_Symbol("Hotspot::GetProperty^1", (void*)Hotspot_GetProperty);
 	scAdd_External_Symbol("Hotspot::GetPropertyText^2", (void*)Hotspot_GetPropertyText);
 	scAdd_External_Symbol("Hotspot::GetTextProperty^1",(void *)Hotspot_GetTextProperty);
+	scAdd_External_Symbol("Hotspot::IsInteractionAvailable^1", (void *)Hotspot_CheckInteractionAvailable);
 	scAdd_External_Symbol("Hotspot::RunInteraction^1", (void*)Hotspot_RunInteraction);
 	scAdd_External_Symbol("Hotspot::get_Enabled", (void*)Hotspot_GetEnabled);
 	scAdd_External_Symbol("Hotspot::set_Enabled", (void*)Hotspot_SetEnabled);

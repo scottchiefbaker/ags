@@ -30,6 +30,7 @@ void register_character_script_functions()
 	scAdd_External_Symbol("Character::HasInventory^1",(void *)Character_HasInventory);
 	scAdd_External_Symbol("Character::IsCollidingWithChar^1",(void *)Character_IsCollidingWithChar);
 	scAdd_External_Symbol("Character::IsCollidingWithObject^1",(void *)Character_IsCollidingWithObject);
+	scAdd_External_Symbol("Character::IsInteractionAvailable^1", (void *)Character_CheckInteractionAvailable);
 	scAdd_External_Symbol("Character::LockView^1",(void *)Character_LockView);
 	scAdd_External_Symbol("Character::LockViewAligned^3",(void *)Character_LockViewAligned);
 	scAdd_External_Symbol("Character::LockViewFrame^3",(void *)Character_LockViewFrame);

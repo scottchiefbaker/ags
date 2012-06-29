@@ -269,6 +269,7 @@ const char* Character_GetTextProperty(CharacterInfo *chaa, const char *property)
 int Character_GetProperty(CharacterInfo *chaa, const char *property);
 void Character_RunInteraction(CharacterInfo *chaa, int mood);
 int Character_GetSpeakingFrame(CharacterInfo *chaa);
+int Character_CheckInteractionAvailable(CharacterInfo *cchar, int mood);
 
 
 //-----------------------------------------------------------------------------
@@ -544,6 +545,7 @@ void Hotspot_SetEnabled(ScriptHotspot *hss, int newval);
 int Hotspot_GetEnabled(ScriptHotspot *hss);
 int Hotspot_GetID(ScriptHotspot *hss);
 const char* Hotspot_GetName_New(ScriptHotspot *hss);
+int Hotspot_CheckInteractionAvailable(ScriptHotspot *hhot, int mood);
 
 
 //-----------------------------------------------------------------------------
@@ -745,6 +747,7 @@ int Object_GetTransparency(ScriptObject *objj);
 int Object_GetVisible(ScriptObject *objj);
 int Object_GetX(ScriptObject *objj);
 int Object_GetY(ScriptObject *objj);
+int Object_CheckInteractionAvailable(ScriptObject *oobj, int mood);
 
 
 //-----------------------------------------------------------------------------

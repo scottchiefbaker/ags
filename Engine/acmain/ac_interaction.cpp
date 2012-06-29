@@ -133,7 +133,68 @@ int InventoryItem_CheckInteractionAvailable(ScriptInvItem *iitem, int mood) {
   return IsInventoryInteractionAvailable(iitem->id, mood);
 }
 
+int IsObjectInteractionAvailable (int object, int mood) {
+	if ((object < 0) || (object >= MAX_INIT_SPR))
+		quit("!IsObjectInteractionAvailable: invalid object number");
 
+	play.check_interaction_only = 1;
+
+	RunObjectInteraction(object, mood);
+
+	int ciwas = play.check_interaction_only;
+	play.check_interaction_only = 0;
+
+	if (ciwas == 2)
+		return 1;
+
+	return 0;
+}
+
+int Object_CheckInteractionAvailable(ScriptObject *oobj, int mood) {
+	return IsObjectInteractionAvailable(oobj->id, mood);
+}
+
+int IsCharacterInteractionAvailable (int character, int mood) {
+	if ( character < 0 )
+		quit("!IsCharacterInteractionAvailable: invalid character number");
+
+	play.check_interaction_only = 1;
+
+	RunCharacterInteraction(character, mood);
+
+	int ciwas = play.check_interaction_only;
+	play.check_interaction_only = 0;
+
+	if (ciwas == 2)
+		return 1;
+
+	return 0;
+}
+
+int Character_CheckInteractionAvailable(CharacterInfo *cchar, int mood) {
+	return IsCharacterInteractionAvailable(cchar->index_id, mood);
+}
+
+int IsHotspotInteractionAvailable (int hotspot, int mood) {
+	if ((hotspot < 0) || (hotspot >= MAX_HOTSPOTS))
+		quit("!IsCharacterInteractionAvailable: invalid character number");
+
+	play.check_interaction_only = 1;
+
+	RunHotspotInteraction(hotspot, mood);
+
+	int ciwas = play.check_interaction_only;
+	play.check_interaction_only = 0;
+
+	if (ciwas == 2)
+		return 1;
+
+	return 0;
+}
+
+int Hotspot_CheckInteractionAvailable(ScriptHotspot *hhot, int mood) {
+	return IsHotspotInteractionAvailable(hhot->id, mood);
+}
 
 
 int IsInteractionAvailable (int xx,int yy,int mood) {

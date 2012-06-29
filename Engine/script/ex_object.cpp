@@ -20,6 +20,7 @@ void register_object_script_functions()
 	scAdd_External_Symbol("Object::GetProperty^1", (void *)Object_GetProperty);
 	scAdd_External_Symbol("Object::GetPropertyText^2", (void *)Object_GetPropertyText);
 	scAdd_External_Symbol("Object::GetTextProperty^1",(void *)Object_GetTextProperty);
+	scAdd_External_Symbol("Object::IsInteractionAvailable^1", (void *)Object_CheckInteractionAvailable);
 	scAdd_External_Symbol("Object::MergeIntoBackground^0", (void *)Object_MergeIntoBackground);
 	scAdd_External_Symbol("Object::Move^5", (void *)Object_Move);
 	scAdd_External_Symbol("Object::RemoveTint^0", (void *)Object_RemoveTint);
