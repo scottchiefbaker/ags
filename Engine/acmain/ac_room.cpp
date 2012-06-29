@@ -637,8 +637,12 @@ void load_new_room(int newnum,CharacterInfo*forchar) {
     {
         forchar->x = new_room_x;
         forchar->y = new_room_y;
+
+		if (new_room_loop != SCR_NO_VALUE)
+			forchar->loop = new_room_loop;
     }
     new_room_x = SCR_NO_VALUE;
+	new_room_loop = SCR_NO_VALUE;
 
     if ((new_room_pos>0) & (forchar!=NULL)) {
         if (new_room_pos>=4000) {
@@ -945,7 +949,7 @@ void NewRoom(int nrnum) {
 
 void NewRoomEx(int nrnum,int newx,int newy) {
 
-  Character_ChangeRoom(playerchar, nrnum, newx, newy);
+  Character_ChangeRoom(playerchar, nrnum, newx, newy, SCR_NO_VALUE);
 
 }
 
@@ -955,7 +959,7 @@ void NewRoomNPC(int charid, int nrnum, int newx, int newy) {
   if (charid == game.playercharacter)
     quit("!NewRoomNPC: use NewRoomEx with the player character");
 
-  Character_ChangeRoom(&game.chars[charid], nrnum, newx, newy);
+  Character_ChangeRoom(&game.chars[charid], nrnum, newx, newy, SCR_NO_VALUE);
 }
 
 void ResetRoom(int nrnum) {

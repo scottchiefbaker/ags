@@ -53,7 +53,7 @@ extern int displayed_room,starting_room;
 extern roomstruct thisroom;
 extern MoveList *mls;
 extern int new_room_pos;
-extern int new_room_x, new_room_y;
+extern int new_room_x, new_room_y, new_room_loop;
 extern GameState play;
 extern ViewStruct*views;
 extern RoomObject*objs;
@@ -198,19 +198,20 @@ void Character_ChangeRoomAutoPosition(CharacterInfo *chaa, int room, int newPos)
     NewRoom(room);
 }
 
-void Character_ChangeRoom(CharacterInfo *chaa, int room, int x, int y) {
+void Character_ChangeRoom(CharacterInfo *chaa, int room, int x, int y, int direction) {
 
     if (chaa->index_id != game.playercharacter) {
         // NewRoomNPC
         if ((x != SCR_NO_VALUE) && (y != SCR_NO_VALUE)) {
             chaa->x = x;
             chaa->y = y;
+			if (direction != SCR_NO_VALUE && direction>=0) chaa->loop = direction;
         }
         chaa->prevroom = chaa->room;
         chaa->room = room;
 
-        DEBUG_CONSOLE("%s moved to room %d, location %d,%d",
-            chaa->scrname, room, chaa->x, chaa->y);
+		DEBUG_CONSOLE("%s moved to room %d, location %d,%d, loop %d",
+			chaa->scrname, room, chaa->x, chaa->y, chaa->loop);
 
         return;
     }
@@ -230,6 +231,7 @@ void Character_ChangeRoom(CharacterInfo *chaa, int room, int x, int y) {
             // walk-in animation if they want
             new_room_x = x;
             new_room_y = y;
+			if (direction != SCR_NO_VALUE) new_room_loop = direction;
         }
     }
 

@@ -17,7 +17,7 @@ void register_character_script_functions()
 	scAdd_External_Symbol("Character::AddInventory^2",(void *)Character_AddInventory);
 	scAdd_External_Symbol("Character::AddWaypoint^2",(void *)Character_AddWaypoint);
 	scAdd_External_Symbol("Character::Animate^5",(void *)Character_Animate);
-	scAdd_External_Symbol("Character::ChangeRoom^3",(void *)Character_ChangeRoom);
+	scAdd_External_Symbol("Character::ChangeRoom^4",(void *)Character_ChangeRoom);
 	scAdd_External_Symbol("Character::ChangeRoomAutoPosition^2",(void *)Character_ChangeRoomAutoPosition);
 	scAdd_External_Symbol("Character::ChangeView^1",(void *)Character_ChangeView);
 	scAdd_External_Symbol("Character::FaceCharacter^2",(void *)Character_FaceCharacter);

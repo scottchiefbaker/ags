@@ -43,7 +43,7 @@ extern MoveList *mls;
 
 extern int in_new_room, new_room_was;  // 1 in new room, 2 first time in new room, 3 loading saved game
 extern int new_room_pos;
-extern int new_room_x, new_room_y;
+extern int new_room_x, new_room_y, new_room_loop;
 
 extern ViewStruct*views;
 
