@@ -1,27 +1,28 @@
 
-#include "wgt2allg.h"
+#include "util/wgt2allg.h"
+#include "gfx/ali3d.h"
 #include "ac/global_object.h"
-#include "ac/ac_common.h"
-#include "ac/ac_gamesetupstruct.h"
-#include "ac/ac_object.h"
-#include "ac/ac_roomstruct.h"
-#include "ac/ac_view.h"
+#include "ac/common.h"
+#include "ac/object.h"
+#include "ac/view.h"
 #include "ac/character.h"
+#include "ac/draw.h"
 #include "ac/event.h"
+#include "ac/gamesetupstruct.h"
 #include "ac/global_character.h"
+#include "ac/global_translation.h"
 #include "ac/object.h"
 #include "ac/objectcache.h"
+#include "ac/properties.h"
 #include "ac/roomobject.h"
 #include "ac/roomstatus.h"
-#include "acmain/ac_customproperties.h"
-#include "acmain/ac_draw.h"
-#include "acmain/ac_maindefines.h"
-#include "acmain/ac_translation.h"
-#include "acmain/ac_viewframe.h"
+#include "ac/roomstruct.h"
+#include "ac/string.h"
+#include "ac/viewframe.h"
 #include "debug/debug.h"
 #include "main/game_run.h"
 #include "script/script.h"
-#include "sprcache.h"
+#include "ac/spritecache.h"
 
 #define OVERLAPPING_OBJECT 1000
 
@@ -35,6 +36,11 @@ extern roomstruct thisroom;
 extern CharacterInfo*playerchar;
 extern int displayed_room;
 extern SpriteCache spriteset;
+extern int offsetx, offsety;
+extern int actSpsCount;
+extern block *actsps;
+extern IDriverDependantBitmap* *actspsbmp;
+extern IGraphicsDriver *gfxDriver;
 
 // Used for deciding whether a char or obj was closer
 int obj_lowest_yp;
@@ -393,6 +399,23 @@ void RunObjectInteraction (int aa, int mood) {
         }
         run_interaction_event(&croom->intrObject[aa],4);  // any click on obj
     }
+}
+
+int IsObjectInteractionAvailable (int object, int mood) {
+    if ((object < 0) || (object >= MAX_INIT_SPR))
+        quit("!IsObjectInteractionAvailable: invalid object number");
+
+    play.check_interaction_only = 1;
+
+    RunObjectInteraction(object, mood);
+
+    int ciwas = play.check_interaction_only;
+    play.check_interaction_only = 0;
+
+    if (ciwas == 2)
+        return 1;
+
+    return 0;
 }
 
 int AreObjectsColliding(int obj1,int obj2) {

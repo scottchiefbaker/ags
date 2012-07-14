@@ -1,19 +1,19 @@
 
 #include "ac/global_hotspot.h"
-#include "wgt2allg.h"
-#include "ac/ac_common.h"
-#include "ac/ac_defines.h"
-#include "ac/ac_gamesetupstruct.h"
-#include "ac/ac_roomstruct.h"
+#include "util/wgt2allg.h"
+#include "ac/common.h"
+#include "ac/common_defines.h"
 #include "ac/characterinfo.h"
+#include "ac/draw.h"
 #include "ac/event.h"
+#include "ac/gamesetupstruct.h"
 #include "ac/global_character.h"
+#include "ac/global_translation.h"
 #include "ac/hotspot.h"
+#include "ac/properties.h"
 #include "ac/roomstatus.h"
-#include "acmain/ac_draw.h"
-#include "acmain/ac_maindefines.h"
-#include "acmain/ac_translation.h"
-#include "acmain/ac_customproperties.h"
+#include "ac/roomstruct.h"
+#include "ac/string.h"
 #include "debug/debug.h"
 #include "script/script.h"
 
@@ -123,6 +123,23 @@ void RunHotspotInteraction (int hotspothere, int mood) {
 
     evblockbasename = oldbasename;
     evblocknum = oldblocknum;
+}
+
+int IsHotspotInteractionAvailable (int hotspot, int mood) {
+    if ((hotspot < 0) || (hotspot >= MAX_HOTSPOTS))
+        quit("!IsCharacterInteractionAvailable: invalid character number");
+
+    play.check_interaction_only = 1;
+
+    RunHotspotInteraction(hotspot, mood);
+
+    int ciwas = play.check_interaction_only;
+    play.check_interaction_only = 0;
+
+    if (ciwas == 2)
+        return 1;
+
+    return 0;
 }
 
 int GetHotspotProperty (int hss, const char *property) {

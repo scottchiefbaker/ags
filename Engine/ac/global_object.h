@@ -41,6 +41,7 @@ void MoveObjectDirect(int objj,int xx,int yy,int spp);
 void SetObjectClickable (int cha, int clik);
 void SetObjectIgnoreWalkbehinds (int cha, int clik);
 void RunObjectInteraction (int aa, int mood);
+int  IsObjectInteractionAvailable (int object, int mood);
 int  AreObjectsColliding(int obj1,int obj2);
 int  GetThingRect(int thing, Rect *rect);
 int  AreThingsOverlapping(int thing1, int thing2);

@@ -14,6 +14,7 @@ int  GetHotspotPointY (int hotspot);
 int  GetHotspotAt(int xxx,int yyy);
 void GetHotspotName(int hotspot, char *buffer);
 void RunHotspotInteraction (int hotspothere, int mood);
+int  IsHotspotInteractionAvailable (int hotspot, int mood);
 
 int  GetHotspotProperty (int hss, const char *property);
 void GetHotspotPropertyText (int item, const char *property, char *bufer);

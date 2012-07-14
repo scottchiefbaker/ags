@@ -18,6 +18,7 @@ int     Hotspot_GetWalkToY(ScriptHotspot *hss);
 void    Hotspot_GetName(ScriptHotspot *hss, char *buffer);
 const char* Hotspot_GetName_New(ScriptHotspot *hss);
 void    Hotspot_RunInteraction (ScriptHotspot *hss, int mood);
+int     Hotspot_CheckInteractionAvailable(ScriptHotspot *hhot, int mood);
 
 int     Hotspot_GetProperty (ScriptHotspot *hss, const char *property);
 void    Hotspot_GetPropertyText (ScriptHotspot *hss, const char *property, char *bufer);

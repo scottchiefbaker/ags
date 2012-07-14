@@ -1,13 +1,13 @@
 
 #include "ac/hotspot.h"
-#include "wgt2allg.h"
-#include "ac/ac_roomstruct.h"
+#include "util/wgt2allg.h"
+#include "ac/draw.h"
+#include "ac/roomstruct.h"
 #include "ac/global_hotspot.h"
+#include "ac/global_translation.h"
+#include "ac/properties.h"
 #include "ac/roomstatus.h"
-#include "acmain/ac_customproperties.h"
-#include "acmain/ac_draw.h"
-#include "acmain/ac_string.h"
-#include "acmain/ac_translation.h"
+#include "ac/string.h"
 
 extern roomstruct thisroom;
 extern RoomStatus*croom;
@@ -53,6 +53,10 @@ const char* Hotspot_GetName_New(ScriptHotspot *hss) {
 
 void Hotspot_RunInteraction (ScriptHotspot *hss, int mood) {
     RunHotspotInteraction(hss->id, mood);
+}
+
+int Hotspot_CheckInteractionAvailable(ScriptHotspot *hhot, int mood) {
+    return IsHotspotInteractionAvailable(hhot->id, mood);
 }
 
 int Hotspot_GetProperty (ScriptHotspot *hss, const char *property) {
