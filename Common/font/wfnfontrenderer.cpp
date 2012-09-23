@@ -7,12 +7,21 @@
 #include "alfont.h"
 
 #include "font/wfnfontrenderer.h"
+#include "util/datastream.h"
+#include "util/file.h"
+#include "gfx/bitmap.h"
+
+using AGS::Common::Bitmap;
+using AGS::Common::DataStream;
+using namespace AGS; // FIXME later
 
 extern void set_our_eip(int eip);
 extern int  get_our_eip();
 
-extern FILE *fopen_shared(char *, char *);
-extern int flength_shared(FILE *ffi);
+extern DataStream *fopen_shared(char *,
+                                 Common::FileOpenMode open_mode = Common::kFile_Open,
+                                 Common::FileWorkMode work_mode = Common::kFile_Read);
+extern int flength_shared(DataStream *ffi);
 
 
 // **** WFN Renderer ****
@@ -83,7 +92,7 @@ int WFNFontRenderer::GetTextWidth(const char *texx, int fontNumber)
     char* fontaddr = psp_get_char(foon, thisCharacter);
 
     short tabaddr_d;
-    memcpy(&tabaddr_d, (char*)((int)fontaddr + 0), 2);
+    memcpy(&tabaddr_d, (char*)((long)fontaddr + 0), 2);
 
     totlen += tabaddr_d;
 #endif
@@ -111,7 +120,7 @@ int WFNFontRenderer::GetTextHeight(const char *texx, int fontNumber)
 #else
     char* fontaddr = psp_get_char(foon, thisCharacter);
     short tabaddr_d;
-    memcpy(&tabaddr_d, (char*)((int)fontaddr + 2), 2);
+    memcpy(&tabaddr_d, (char*)((long)fontaddr + 2), 2);
 
     int charHeight = tabaddr_d;
 #endif
@@ -152,10 +161,10 @@ int WFNFontRenderer::printchar(int xxx, int yyy, wgtfont foo, int charr)
   char* tabaddr = psp_get_char(foo, charr);
 
   short tabaddr_d;
-  memcpy(&tabaddr_d, (char*)((int)tabaddr), 2);
+  memcpy(&tabaddr_d, (char*)((long)tabaddr), 2);
   int charWidth = tabaddr_d;
 
-  memcpy(&tabaddr_d, (char*)((int)tabaddr + 2), 2);
+  memcpy(&tabaddr_d, (char*)((long)tabaddr + 2), 2);
   int charHeight = tabaddr_d;
 #endif
 
@@ -167,12 +176,12 @@ int WFNFontRenderer::printchar(int xxx, int yyy, wgtfont foo, int charr)
     for (ss = 0; ss < charWidth; ss++) {
       if (((actdata[tt * bytewid + (ss / 8)] & (0x80 >> (ss % 8))) != 0)) {
         if (wtext_multiply > 1) {
-          rectfill(abuf, xxx + ss, yyy + tt, xxx + ss + (wtext_multiply - 1),
-                   yyy + tt + (wtext_multiply - 1), textcol);
+          abuf->FillRect(Rect(xxx + ss, yyy + tt, xxx + ss + (wtext_multiply - 1),
+                   yyy + tt + (wtext_multiply - 1)), textcol);
         } 
         else
         {
-          putpixel(abuf, xxx + ss, yyy + tt, textcol);
+          abuf->PutPixel(xxx + ss, yyy + tt, textcol);
         }
       }
 
@@ -187,36 +196,36 @@ int WFNFontRenderer::printchar(int xxx, int yyy, wgtfont foo, int charr)
 bool WFNFontRenderer::LoadFromDisk(int fontNumber, int fontSize)
 {
   char filnm[20];
-  FILE *ffi = NULL;
+  DataStream *ffi = NULL;
   char mbuffer[16];
   long lenof;
 
   sprintf(filnm, "agsfnt%d.wfn", fontNumber);
-  ffi = fopen_shared(filnm, "rb");
+  ffi = fopen_shared(filnm);
   if (ffi == NULL)
   {
     // actual font not found, try font 0 instead
     strcpy(filnm, "agsfnt0.wfn");
-    ffi = fopen_shared(filnm, "rb");
+    ffi = fopen_shared(filnm);
     if (ffi == NULL)
       return false;
   }
 
   mbuffer[15] = 0;
-  fread(mbuffer, 15, 1, ffi);
+  ffi->ReadArray(mbuffer, 15, 1);
   if (strcmp(mbuffer, WFN_FILE_SIGNATURE) != 0) {
-    fclose(ffi);
+    delete ffi;
     return false;
   }
 
   lenof = flength_shared(ffi);
 
   wgtfont tempalloc = (wgtfont) malloc(lenof + 40);
-  fclose(ffi);
+  delete ffi;
 
-  ffi = fopen_shared(filnm, "rb");
-  fread(tempalloc, lenof, 1, ffi);
-  fclose(ffi);
+  ffi = fopen_shared(filnm);
+  ffi->ReadArray(tempalloc, lenof, 1);
+  delete ffi;
 
   fonts[fontNumber] = tempalloc;
   return true;
