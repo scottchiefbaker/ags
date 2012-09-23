@@ -9,6 +9,9 @@
 
 #include "util/file.h"
 
+namespace AGS { namespace Common { class DataStream; }}
+using namespace AGS; // FIXME later
+
 // This struct is only used in save games and by plugins
 // [IKM] Not really.... used in update loop
 struct RoomObject {
@@ -37,8 +40,8 @@ struct RoomObject {
 	void update_cycle_view_forwards();
 	void update_cycle_view_backwards();
 
-    void ReadFromFile(FILE *fp);
-    void WriteToFile(FILE *fp);
+    void ReadFromFile(Common::DataStream *in);
+    void WriteToFile(Common::DataStream *out);
 };
 
 #endif // __AGS_EE_AC__ROOMOBJECT_H

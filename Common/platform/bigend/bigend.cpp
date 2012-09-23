@@ -19,7 +19,7 @@
 // define this before including bigend.h in this file only
 // allows the overridden functions to call into the originals
 #define __BIGEND_ORIGINAL_FILE_FUNCTIONS
-#include "platform/bigend.h"
+#include "bigend.h"
 
 //-----------------------------------------------------------------
 
@@ -152,4 +152,4 @@ size_t __fwrite__lilendian(void const *ptr, size_t size, size_t nmemb, FILE *fp)
 //-----------------------------------------------------------------
 #undef __BIGEND_ORIGINAL_FILE_FUNCTIONS
 
-#endif ALLEGRO_BIG_ENDIAN
+#endif // ALLEGRO_BIG_ENDIAN

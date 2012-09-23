@@ -9,6 +9,9 @@
 
 #include "util/file.h"
 
+namespace AGS { namespace Common { class DataStream; } }
+using namespace AGS; // FIXME later
+
 // [IKM] This is *conversation* dialog, not *gui* dialog, mind you!
 
 #define MAXTOPICOPTIONS     30
@@ -46,7 +49,7 @@ struct DialogTopic {
     int           numoptions;
     int           topicFlags;
 
-    void ReadFromFile(FILE *fp);
+    void ReadFromFile(Common::DataStream *in);
 };
 
 

@@ -5,6 +5,10 @@
 #include "media/audio/queuedaudioitem.h"
 #include "util/file.h"
 
+// Forward declaration
+namespace AGS { namespace Common { class DataStream; } }
+using namespace AGS; // FIXME later
+
 // Adding to this might need to modify AGSDEFNS.SH and AGSPLUGIN.H
 struct GameState {
     int  score;      // player's current score
@@ -160,8 +164,8 @@ struct GameState {
     unsigned long ignore_user_input_until_time;
     int   default_audio_type_volumes[MAX_AUDIO_TYPES];
 
-    void ReadFromFile(FILE *f);
-    void WriteToFile(FILE *f);
+    void ReadFromFile(Common::DataStream *in);
+    void WriteToFile(Common::DataStream *out);
 };
 
 #endif // __AC_GAMESTATE_H

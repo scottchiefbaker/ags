@@ -13,10 +13,17 @@
 */
 #include <stdio.h>
 #include <string.h>
-#include "platform/base/agsplatformdriver.h"
 #include "util/wgt2allg.h"
+#include "platform/base/agsplatformdriver.h"
 #include "ac/common.h"
 #include "util/string_utils.h"
+#include "util/datastream.h"
+#include "gfx/bitmap.h"
+
+using AGS::Common::DataStream;
+using AGS::Common::String;
+using AGS::Common::Bitmap;
+namespace BitmapHelper = AGS::Common::BitmapHelper;
 
 #if !defined(BSD_VERSION) && (defined(LINUX_VERSION) || defined(WINDOWS_VERSION))
 #include "libcda.h"
@@ -26,7 +33,7 @@
 #define strnicmp strncasecmp
 #endif
 
-extern block abuf; // in wgt2allg
+extern Bitmap *abuf; // in wgt2allg
 
 AGSPlatformDriver* AGSPlatformDriver::instance = NULL;
 AGSPlatformDriver *platform = NULL;
@@ -37,7 +44,7 @@ int  AGSPlatformDriver::RunPluginDebugHooks(const char *scriptfile, int linenum)
 void AGSPlatformDriver::RunPluginInitGfxHooks(const char *driverName, void *data) { }
 void AGSPlatformDriver::ShutdownPlugins() { }
 void AGSPlatformDriver::StartPlugins() { }
-int  AGSPlatformDriver::RunPluginHooks(int event, int data) { return 0; }
+int  AGSPlatformDriver::RunPluginHooks(int event, long data) { return 0; }
 void AGSPlatformDriver::WriteDebugString(const char*, ...) { }
 void AGSPlatformDriver::AboutToQuitGame() { }
 void AGSPlatformDriver::PostAllegroInit(bool windowed) { }
@@ -80,18 +87,17 @@ void AGSPlatformDriver::ReplaceSpecialPaths(const char *sourcePath, char *destPa
 
 }
 
-void AGSPlatformDriver::ReadPluginsFromDisk(FILE *iii) {
-    if (getw(iii) != 1)
+void AGSPlatformDriver::ReadPluginsFromDisk(DataStream *in) {
+    if (in->ReadInt32() != 1)
         quit("ERROR: unable to load game, invalid version of plugin data");
 
-    int numPlug = getw(iii), a, datasize;
-    char buffer[80];
-
+    int numPlug = in->ReadInt32(), a, datasize;
+    String buffer;
     for (a = 0; a < numPlug; a++) {
         // read the plugin name
-        fgetstring (buffer, iii);
-        datasize = getw(iii);
-        fseek (iii, datasize, SEEK_CUR);
+        buffer = in->ReadString();
+        datasize = in->ReadInt32();
+        in->Seek (Common::kSeekCurrent, datasize);
     }
 
 }
@@ -99,7 +105,7 @@ void AGSPlatformDriver::ReadPluginsFromDisk(FILE *iii) {
 void AGSPlatformDriver::InitialiseAbufAtStartup()
 {
     // because loading the game file accesses abuf, it must exist
-    abuf = create_bitmap_ex(8,10,10);
+    abuf = BitmapHelper::CreateBitmap(10,10,8);
 }
 
 void AGSPlatformDriver::FinishedUsingGraphicsMode()
@@ -115,6 +121,13 @@ int AGSPlatformDriver::ConvertKeycodeToScanCode(int keycode)
 {
     keycode -= ('A' - KEY_A);
     return keycode;
+}
+
+//-----------------------------------------------
+// IOutputTarget implementation
+//-----------------------------------------------
+void AGSPlatformDriver::Out(const char *sz_fullmsg) {
+    // do nothing
 }
 
 // ********** CD Player Functions common to Win and Linux ********
